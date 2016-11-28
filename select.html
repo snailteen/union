@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>选择页面</title>
+</head>
+<style type="text/css">
+	*{
+		margin:0 auto;
+		padding:0;
+
+	}
+
+	body{
+		background: whitesmoke;
+		transition: all 2.5s;
+	}
+
+	#title{
+		text-shadow: 10px 5px 5px gray;
+		text-align: center;
+		font-size: 5rem;
+	}
+
+	
+
+	ul{
+		/*display: flex;*/
+		position: absolute;
+		top: 20%;
+	}
+	li{
+		float: left;
+		list-style: none;
+		width: 19.3rem;
+		background: rgba(0,0,0,0.1);
+		height: 300px;
+		border:0.5rem solid gray;
+		text-align: center;
+		line-height: 300%;
+		font-size: 100px;
+		color: rgba(0,0,0,0.4);
+
+	}
+</style>
+<body>
+
+<div id="title">请选择你的将要进行的游戏</div>
+
+	<ul>
+		<li>黄</li>
+		<li>猜</li>
+		<li>寻</li>
+		<li>盖</li>
+	</ul>	
+
+</body>
+<script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+<script type="text/javascript">
+var timer =setInterval("color()",3000);
+function color(){
+var RamArr = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
+var RamCol = '#';
+// console.log(Math.ceil(Math.random()*((15-0)+0)));
+
+ for(var i = 0; i<6; i++){
+ 	RamCol += RamArr[Math.ceil(Math.random()*((15-0)+0))];
+
+	}
+// alert(RamCol);
+$("body").css("backgroundColor",RamCol);
+	}
+
+$('ul li').click(function(){
+	if($(this).index()==0){
+		window.location.href="../union/Minions/gameTest2.html";
+	}
+	if($(this).index()==1){
+		window.location.href="../union/word/wordgame.html";
+	}
+	if($(this).index()==2){
+		window.location.href="../union/find/find.html";
+	}
+	if($(this).index()==3){
+		window.location.href="../union/gai/gai.html";
+	}
+});
+</script>
+</html>

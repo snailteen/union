@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>菜单</title>
+	<style type="text/css">
+	*{
+		margin:0 auto;
+		padding:0;
+		/*transition: all 2.5s;*/
+		/*background: whitesmoke;*/
+	}
+	/*#wrap{
+		text-align: center;
+		font-size: 5rem;
+		background: whitesmoke;
+		transition: all 2.5s;
+		/*position: relative;
+	}*/
+	body{
+		background: whitesmoke;
+		transition: all 2.5s;
+	}
+	#title{
+		position: absolute;
+		/*padding-top: 9rem;*/
+		animation:titleMove 3s infinite;
+		left:6rem;
+		font-size: 5rem;
+	}
+
+	#soe{
+		/*position: absolute;*/
+		width: 100%;
+		text-align: center;
+		padding-top: 50rem; 
+		/*padding-left: 4rem;*/
+		/*margin-top: 50rem;*/
+		/*margin-left:4rem;*/
+		font-size: 4rem;
+		overflow: hidden;
+	}
+	
+
+	#soe img{
+		float: left;
+		width: 100px;
+		height:100px;
+	}
+	li{
+		animation:mymove 5s infinite;
+		-webkit-animation:mymove 5s infinite;
+		padding-left: 4rem;
+		list-style: none;
+		float: left;
+	}
+	@keyframes mymove{
+		0%{opacity: 1}
+		20%{opacity: 0.6}
+		50%{opacity: 0.3}
+		70%{opacity: 0.6}
+		100%{opacity: 1}
+	}
+	@keyframes titleMove{
+		0%{padding-top: 3rem;}
+		20%{padding-top: 3.05rem;}
+		50%{padding-top: 3.05em;}
+		70%{padding-top: 3.05rem;}
+		100%{padding-top: 3rem;
+	}
+	</style>
+</head>
+<body>
+<!-- <div id="wrap"> -->
+<p id="title"> H5小游戏合集 </p>
+<ul id="soe">
+<li id="start"><img src="img/start.png" alt="">play</li>
+<li id="over"><img src="img/end.png" alt="">quit</li>
+</div><!--开始或者结束-->
+
+<!-- </div> -->
+<script src="jquery-3.1.0.min.js"></script>
+<script>
+// alert($(document.body).width());
+$('#wrap').css('width', $(document).width());
+$('#wrap').css('height', $(document).height());
+var timer =setInterval("color()",3000);
+function color(){
+var RamArr = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
+var RamCol = '#';
+// console.log(Math.ceil(Math.random()*((15-0)+0)));
+
+ for(var i = 0; i<6; i++){
+ 	RamCol += RamArr[Math.ceil(Math.random()*((15-0)+0))];
+
+	}
+// alert(RamCol);
+$("body").css("backgroundColor",RamCol);
+	}
+
+$('#start').click(function(){
+	window.location.href="select.html";
+});
+
+
+
+</script>
+</body>
+</html>

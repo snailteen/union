@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<title>Document</title>
+<style type="text/css">
+*{
+	margin: 0;
+	padding: 0;
+}
+#box{
+	width: 100%;
+	height: 700px;
+	border: 1px solid #ccc;
+	position: relative;
+	margin: 0 auto;
+	overflow: hidden;
+}
+#wrap{
+	width: 100%;
+
+	position: absolute;
+	bottom: 0
+}
+ul{
+
+	position: absolute;
+}
+li{
+	list-style: none;
+	background-color: #ccc;
+	width: 18px;
+	height: 18px;
+	border: 1px solid black;
+	float: left;
+}
+.down{
+	-webkit-animation:my 1s linear;
+	opacity: 0;
+}
+p{
+	width: 100px;
+	font-size: 100px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	text-shadow: 5px 5px 5px green;
+	color: green;
+	text-align: center;
+	/*position: absolute;*/
+
+}
+
+@-webkit-keyframes my
+ {
+  from  {transform: translateY(0px) rotate(0deg);opacity: 1; } 
+  to
+  { transform: translateY(30px) rotate(360deg);opacity: 0;} 
+ }
+
+#end{
+	display: none;
+	text-align: center;
+	position: absolute;
+	top: 8rem;
+	left: 5rem;
+	border: 1px solid rgba(0,0,0,0.1);
+	background: rgba(0,0,0,0.8);
+	width: 53%;
+	/*height: 40%;*/
+	font-size: 1.6rem;
+	border-radius: 20px;	
+	color:white;
+	box-shadow: 15px 15px 5px gray;
+}
+
+
+
+#end div{
+	border: 3px solid black;
+	border-radius: 20px;
+	margin-top: 4rem
+
+}
+
+
+@media(max-width:360px){
+	#box{
+		height: 500px;
+	}
+}
+@media only screen and (min-width: 365px) and (max-width: 380px){
+	#box{
+		height: 600px;
+	}
+ 
+}
+@media only screen and (min-width: 390px) and (max-width: 420px){
+	#box{
+		height: 700px;
+	}
+ 
+}
+
+</style>
+</head>
+<body>
+<p id="p">2</p>
+<div id="box">
+	<div id="wrap">
+		<ul style="left:60px;bottom: 0" id="zone">
+			<!-- <li></li>
+			<li></li>
+			<li></li> -->
+<!-- 			<li></li>
+			<li></li>
+			<li></li> -->
+			<!-- <li></li>
+			<li></li>
+			<li></li>
+			<li></li> -->
+			<!-- <li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li> -->
+			<!-- <li></li>
+			<li></li>
+			<li></li> -->
+		</ul>
+	</div>
+</div>
+<div id="end">
+<span id="title">GAME OVER</span>
+<br><br>
+你的总分：<span id="sum"></span>
+<div id="again">重来</div>
+<div id="quit">返回选择列表</div>
+
+</div>
+</body>
+<script type="text/javascript" src="../jquery-3.1.0.min.js"></script>
+<script type="text/javascript">
+window.onload = function  () {
+
+	var end = document.getElementById('end');
+	var sum = document.getElementById('sum');
+	var again = document.getElementById('again');
+	var quit = document.getElementById('quit');
+	
+	var oWrap = document.getElementById('wrap');
+	var oP = document.getElementById('p');
+
+	var tier = 1;	/* 层数 */
+	var chunkNum = 11	/* 方块个数 */
+	var timer = null	/*  全局的定时器 */
+	var iSpeed = 20;	/* 速度 */
+	var timeAnimate = 300;	/* 定义毫秒数 */
+
+// alert($('body').height());	
+	function zone(){
+		var str = '';
+	var zone = document.getElementById('zone');
+	if($('#box').width()>370&&$('#box').width()<400){
+		chunkNum=13;
+	}
+	if($('#box').width()>400){
+		chunkNum=15;
+	}
+	for(var i = 0; i<chunkNum; i++){
+
+		str+="<li></li>";
+	}
+	zone.innerHTML=str;
+}
+
+	zone();
+
+
+	creat();
+
+	/*	创建ul	*/
+	function creat(){
+		var oUl = document.createElement('ul');
+		var str = '';
+		for (var i = 0; i < chunkNum; i++) {
+			str += "<li></li>";
+		}
+		oUl.style.left = oWrap.children[0].offsetLeft + "px";
+		oUl.style.bottom =  tier * 20 + "px";
+		oUl.innerHTML = str;
+		oWrap.insertBefore(oUl,oWrap.children[0]);
+		tier++;
+		animate(oUl);
+	}
+	
+
+	/* 自动走 */
+	function animate(obj){
+		clearInterval(timer);
+		var minLeft = 0;
+		var maxLeft = oWrap.clientWidth - obj.offsetWidth-20;
+		var left = obj.offsetLeft;
+		timer = setInterval(function(){
+			left += iSpeed;
+
+			if ( left <= minLeft ) {
+				iSpeed *= -1;
+			}
+			if (left >= maxLeft) {
+				iSpeed *= -1;
+			};
+
+			obj.style.left = left + "px";
+		}, timeAnimate);
+	}
+
+	/*  css3动画 */
+	function cssAnimated(obj,val,length){
+		var newUl = document.createElement('ul');
+		for (var i = 0; i < length; i++) {
+			var oLi = document.createElement('li');
+			oLi.className = 'down';
+			newUl.appendChild(oLi);
+		}
+		newUl.style.left = obj.offsetLeft + val +"px";
+		newUl.style.top = obj.offsetTop + "px";
+		oWrap.appendChild(newUl);
+	}
+
+
+	function gameOver(){
+		if (tier >= 20) {
+			oWrap.style.top = oWrap.offsetTop + 20 + "px";
+		}
+		if (chunkNum <= 0) {
+			// alert('结束');
+		sum.innerText=tier-1;
+		end.style.display="block";
+		}else{
+			oP.innerHTML = tier;
+		}
+	}
+	
+	again.onclick=function(){
+	
+		window.location.reload();
+
+	}	
+
+	quit.onclick = function(){
+
+		window.location.href = "../select.html";
+	}
+
+
+
+
+	var clickBol = true;
+	document.onclick = function(){
+		
+		if (clickBol == false) {
+			return;
+		}
+		clickBol = false;
+		setTimeout(function(){
+			clickBol = true;
+		}, 250);
+
+		/*  控制速度 */
+		if (tier > 30) {
+			timeAnimate -=5;
+		}else if (tier > 20) {
+			timeAnimate -=3;
+		}else if(tier > 10){
+			timeAnimate -=2;
+		}else if(tier > 0){
+			timeAnimate --;
+		}
+
+		var nowLeft = oWrap.children[0].offsetLeft;
+		var nextLeft = oWrap.children[1].offsetLeft;
+
+		var contrastLeft = nowLeft - nextLeft;
+		var firstUl = oWrap.children[0];
+
+		if (contrastLeft > 0) {
+			// 右边
+			var num = contrastLeft / 20;
+			var total = firstUl.children.length;
+			for (var i = 0; i < num; i++) {
+				total--;
+				firstUl.removeChild(firstUl.children[total]);
+			}
+			chunkNum = chunkNum - num;
+			creat();
+
+			cssAnimated(firstUl,total*20,num);
+
+		}else if(contrastLeft < 0 ){
+			//左边
+			var num =Math.abs( contrastLeft) / 20;
+			for (var i = 0; i < num; i++) {
+				firstUl.removeChild(firstUl.children[0]);
+			};
+			firstUl.style.left = firstUl.offsetLeft - contrastLeft + "px";
+			chunkNum = chunkNum - num;
+			creat();
+
+			cssAnimated(firstUl,contrastLeft,num);
+			
+			
+		}else if(contrastLeft == 0 ){
+			creat();
+		}
+		gameOver();
+
+	}
+
+
+
+
+
+}
+</script>
+</html>

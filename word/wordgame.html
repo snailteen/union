@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+*{
+	margin: 0;
+	padding: 0;
+}
+.wrap{width: 100%;margin: 0 auto;border: 1px solid #ccc;}
+#top{text-align: center;}
+#top span{font-size: 43px;}
+#time{}
+#score{}
+
+#middle{text-align: center;}
+#font{font-size: 30rem;padding: 20px 0; border:10px solid rgba(0,0,0,0.1); border-radius: 50%;}
+#menu{font-size: 50px;color: red;}
+
+#footer{text-align: center;}
+#footer ul{overflow: hidden;}
+#footer li{list-style-type: none;float: left;margin-left:1.5rem;font-size: 100px; border:1px solid rgba(0,0,0,0.5);
+	
+}
+#end{
+	display: none;
+	text-align: center;
+	position: absolute;
+	top: 18rem;
+	left: 10rem;
+	border: 1px solid rgba(0,0,0,0.1);
+	background: rgba(0,0,0,0.8);
+	width: 53%;
+	/*height: 40%;*/
+	font-size: 3.5rem;
+	border-radius: 20px;	
+	color:white;
+	box-shadow: 15px 15px 5px gray;
+}
+
+
+
+#end div{
+	border: 3px solid black;
+	border-radius: 20px;
+	margin-top: 4rem
+
+}
+</style>
+
+<script type="text/javascript">
+
+// 随机数组下标
+function fnRand(num){
+	return parseInt(Math.random() * num);
+}
+
+// 打乱数组
+function fnRandArr(arr){
+	return arr.sort(function () {
+		return Math.random() - 0.5; 
+	});
+}
+
+// 比较下标
+function compare(val,arr){
+	for (var i = 0; i < arr.length; i++) {
+		if (val == arr[i]) {
+			return i;
+		}
+	}
+}
+
+window.onload = function  () {
+	var end = document.getElementById('end');
+	var sum = document.getElementById('sum');
+	var again = document.getElementById('again');
+	var quit = document.getElementById('quit');
+
+
+	var aLi = document.getElementById('ul1').getElementsByTagName('li');
+	var oFont = document.getElementById('font');
+	var oMenu = document.getElementById("menu");
+	var oTime = document.getElementById('time');
+	var oScore = document.getElementById('score');
+
+	var timer = null;
+	var sTime = oTime.innerHTML;
+	var iScore = oScore.innerHTML;
+	var bol = true;//控制点击
+
+
+	var arrColor = ['red','blue','green','black','yellow'];
+	var arrFont = ['红','蓝','绿','黑','黄'];
+
+	var oldArrColor = ['red','blue','green','black','yellow'];
+	var oldArrFont = ['红','蓝','绿','黑','黄'];
+
+	init();
+
+	function init(){
+		var sColor = arrColor[fnRand(arrColor.length)];
+		var sFont = arrFont[fnRand(arrFont.length)];
+
+
+
+		// alert(sColor);
+		// alert(sFont);
+
+		oFont.innerHTML = sFont;
+		oFont.style.color = sColor;
+
+		// 已经的打乱的数组
+		var newArrColor =  fnRandArr(oldArrColor);
+		var newArrFont = fnRandArr(oldArrFont);
+
+		// alert(newArrColor);
+		// alert(newArrFont);
+		
+
+		for (var i = 0; i < aLi.length; i++) {
+			aLi[i].innerHTML = newArrFont[i];
+			aLi[i].style.color = newArrColor[i];
+			aLi[i].onclick = function(){
+				if (!bol) {
+					return;
+				};
+				// oMenu.style.display = 'none';
+				oMenu.style.visibility = 'hidden';
+				// console.log(arrColor);
+
+				gameOver();
+
+				var ys =  oFont.style.color;//颜色
+				var zt = this.innerHTML; //字
+				
+				var ysIndex = compare(ys,arrColor);//颜色的下标
+				var ztIndex = compare(zt,arrFont);//字体的下标
+
+				if (ysIndex == ztIndex) {
+					iScore++;
+					oScore.innerHTML = iScore;
+					init();
+				}
+				
+
+			}
+		}
+	}
+
+	function gameOver(){
+		clearInterval(timer);
+		timer = setInterval(function(){
+			sTime-=0.2;
+
+			if (sTime <= 0) {
+				bol=false;
+				sTime = 0;
+				sum.innerText=oScore.innerHTML;
+				end.style.display="block";
+				clearInterval(timer);
+			}
+			
+
+			oTime.innerHTML = sTime.toFixed(2);
+			
+		}, 100);
+	}
+
+
+
+	again.onclick=function(){
+	
+		window.location.reload();
+
+	}	
+
+	quit.onclick = function(){
+
+		window.location.href = "../select.html";
+	}
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+	<div id="top">
+		<span>剩余时间: <strong id='time'>10</strong> </span>
+		<span>完成: <strong id='score'>0</strong> </span>
+	</div>
+	<div id="middle">
+		<p id="font">黑</p>
+		<p id="menu">根据上面的字的颜色从下面选择正确的字，选择正确自动开始</p>
+	</div>
+	<div id="footer">
+		<ul id="ul1">
+			<li>红</li>
+			<li>蓝</li>
+			<li>绿</li>
+			<li>黑</li>
+			<li>黄</li>
+		</ul>
+	</div>
+
+</div>
+
+<div id="end">
+<span id="title">GAME OVER</span>
+<br><br>
+你的总分：<span id="sum"></span>
+<div id="again">重来</div>
+<div id="quit">返回选择列表</div>
+</body>
+</html>
